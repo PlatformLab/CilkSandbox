@@ -1,6 +1,8 @@
-#include <cilk/cilk.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+
+#include <cilk/cilk.h>
 
 int64_t fib(int64_t n) {
     if (n < 2) return n;
@@ -11,6 +13,10 @@ int64_t fib(int64_t n) {
     return x + y;
 }
 
-int main(){
-   printf("%ld\n", fib(20));
+int main(int argc, char** argv){
+    if (argc > 1) {
+        printf("%ld\n", fib(atoi(argv[1])));
+    } else {
+        fprintf(stderr, "Usage: Fib <Number>\n");
+    }
 }
