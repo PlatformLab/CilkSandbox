@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include <cilk/cilk.h>
+#include "PerfUtils/cycles_wrapper.h"
 
 int64_t fib(int64_t n) {
     if (n < 2) return n;
@@ -14,9 +15,17 @@ int64_t fib(int64_t n) {
 }
 
 int main(int argc, char** argv){
+    int64_t N, res;
     if (argc > 1) {
-        printf("%ld\n", fib(atoi(argv[1])));
+        N = atoi(argv[1]);
     } else {
         fprintf(stderr, "Usage: Fib <Number>\n");
+        exit(1);
     }
+    cycles_init();
+
+    uint64_t startCycles = cycles_rdtsc();
+    res = fib(N);
+    uint64_t stopCycles = cycles_rdtsc();
+    printf("Computed fib %ld to be %ld in %lu us\n", N, res, cycles_to_microseconds(stopCycles - startCycles));
 }
