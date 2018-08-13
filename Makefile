@@ -4,12 +4,14 @@ CC = clang-5.0
 BINS=Fib FibSerial knary knarySerial
 # Dependencies
 PERFUTILS=../PerfUtils
-LIBS=-I$(PERFUTILS)/include $(PERFUTILS)/lib/libPerfUtils.a
+LIBS=$(PERFUTILS)/lib/libPerfUtils.a
+INCLUDE=-I$(PERFUTILS)/include
 
 all: $(BINS)
 
 % : %.c
-	$(CC) -fcilkplus -O2 $< $(LIBS) -o $@
+	$(CC) -c  -fcilkplus -O2 $< $(INCLUDE) -o $@.o
+	clang++ -fcilkplus -o $@ $@.o $(LIBS)  -lm
 
 clean:
-	rm -rf $(BINS)
+	rm -rf $(BINS) *.o

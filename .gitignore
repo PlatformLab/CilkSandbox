@@ -3,3 +3,6 @@ Fib
 FibSerial
 knary
 knarySerial
+
+# Object files
+*.o
